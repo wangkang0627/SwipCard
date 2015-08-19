@@ -2,6 +2,7 @@ package then.com.swip_card.utils;
 
 
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.View;
 
 import com.nineoldandroids.animation.ValueAnimator;
@@ -20,7 +21,8 @@ public class AnimUtils {
                 ViewCompat.setScaleY(view, propertity.s_y);
                 ViewCompat.setScaleX(view, propertity.s_x);
                 ViewCompat.setAlpha(view, propertity.alpha);
-                ViewCompat.setRotation(view,propertity.rotate);
+                ViewCompat.setRotation(view, propertity.rotate);
+                Log.d("tag", propertity.rotate + "");
             }
         });
         return valueAnimator;

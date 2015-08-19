@@ -210,6 +210,8 @@ public class DragCard extends RelativeLayout {
     private void animBackward() {
         animt_finish = false;
         View back = viewCollection.remove(0);
+        if (back.getVisibility()==GONE)
+            back.setVisibility(VISIBLE);
         ViewGroup viewGroup = (ViewGroup) back.getParent();
         if (viewGroup != null) {
             viewGroup.removeView(back);
@@ -377,8 +379,6 @@ public class DragCard extends RelativeLayout {
                 float mRotation = (total_x / rotation_coefficient);
                 this.left = total_x;
                 this.top = top;
-                Log.d("tag", mRotation + "");
-
                 ViewCompat.setRotation(changedView, mRotation);
             }
 
