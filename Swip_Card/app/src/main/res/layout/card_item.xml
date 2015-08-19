@@ -1,0 +1,211 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="2dp"
+    app:cardCornerRadius="2dp">
+
+    <RelativeLayout
+        android:id="@+id/test"
+        android:layout_width="310dp"
+        android:layout_height="380dp">
+            <TextView
+                android:id="@+id/text"
+                android:textSize="30sp"
+                android:layout_centerInParent="true"
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+      <!--  <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ask_lcs_btn_default" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/iv_logo"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minHeight="46dp"
+            android:text="200亿进行开矿处理200亿进行开矿处理200亿进行开矿处" />
+
+        <ImageView
+            android:id="@+id/v_div"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/holo_blue_dark" />
+
+        <TextView
+
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/v_div"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:minHeight="70dp"
+            android:padding="10dp"
+            android:text="答：200亿进行开矿处理200亿进行开200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理200亿进行开矿处理"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/v_div"
+            android:drawablePadding="24dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="3"
+            android:padding="10dp"
+            android:text="问答私密部分需要解锁以后查看"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_look_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_content"
+            android:layout_centerHorizontal="true"
+            android:paddingRight="10dp"
+            android:text="我被锁住了" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_content"
+            android:paddingRight="10dp"
+            android:text="两分钟前" />
+
+        <View
+            android:id="@+id/bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/tv_time"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/holo_orange_light"></View>
+
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/bottom_line"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@mipmap/avatar_default" />
+
+        <TextView
+
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/img_avatar"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/img_avatar"
+            android:drawablePadding="4dp"
+            android:text="张军" />
+
+        <TextView
+            android:id="@+id/tv_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/tv_name"
+            android:text="山西化什么什么公司" />
+
+        <TextView
+            android:id="@+id/tv_influence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_name"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="6dp"
+            android:text="影响力" />
+
+        <TextView
+            android:id="@+id/tv_liveness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_influence"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@id/tv_influence"
+            android:text="或阅历" />
+
+        <TextView
+            android:id="@+id/tv_ability"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_influence"
+            android:layout_below="@id/tv_influence"
+            android:layout_marginTop="6dp"
+            android:text="按理说的就奥圣诞节啊送了接啊善良的爱上了就" />
+
+        <LinearLayout
+            android:id="@+id/linear_content"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/img_avatar"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ask_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="回答数\n0" />
+
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/holo_blue_light"></View>
+
+            <TextView
+                android:id="@+id/tv_satisfied"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="满意度\n0%" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/holo_blue_light"></View>
+
+            <TextView
+                android:id="@+id/tv_average_response_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="平均响应时间\n&#45;&#45;" />
+
+        </LinearLayout>-->
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
