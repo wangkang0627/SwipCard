@@ -2,6 +2,7 @@ package then.com.swip_card;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.os.Build;
 import android.support.v4.view.GestureDetectorCompat;
@@ -9,13 +10,10 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -45,22 +43,56 @@ public class DragCard extends RelativeLayout {
     public static final int BOTTOM_DRAG = 2;//下
     public static final int LEFT_DRAG = 3;//左
     public static final int RIGHT_DRAG = 4;//右
+    private static final int DEFAU_LTVISIBLENUM = 5;//默认可见数
+    private static final float DEFAULT_CARD_MARGIN = 20f;//card之间的默认 margin
+    private static final float DEFAULT_ALPHA = 0.05f;//默认透明度变化
+    private static final float DEFAULT_SCACLE = 0.01f;//缩小率
+    private float mScale = 0;
+    private float mAlpha = 0;
+    private float card_margin = 0;//card之间的margin
+    private int mVisibleNum = 0;//可见数
+
     private ViewDragHelper mDragHelper;
-    private int mVisibleNum = 5;//可见数
     private int mIndex = 0;//当前索引
-    private GestureDetectorCompat gestureDetector;
+    //private GestureDetectorCompat gestureDetector;
     private ArrayList<View> viewCollection = new ArrayList<View>();
     private BaseGragAdapter baseGragAdapter;
     private HashMap<View, ViewPropertity> orign_propertitys = new HashMap<>();//view的原始属性集合
     private Stack<ViewPropertity> last_properties = new Stack<>();//飞过去之后的属性集合
     private boolean animt_finish = true;//动画是否结束
     private boolean release_flag = true;//是否滑动完毕
-    private int card_margin = 20;//card之间的margin
     private CardListener cardListener;
     //创建facebook spring动画
     private final BaseSpringSystem mSpringSystem = SpringSystem.create();
     private final CustomSpringListener mSpringListener = new CustomSpringListener();
     private Spring mScaleSpring;
+
+
+    public DragCard(Context context) {
+        super(context);
+    }
+
+    public DragCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        TypedArray t = getContext().obtainStyledAttributes(attrs, R.styleable.DragCardStyle);
+        //初始化cardmargin
+        card_margin = t.getDimension(R.styleable.DragCardStyle_drag_card_margin, DEFAULT_CARD_MARGIN);
+        //初始化可见数
+        mVisibleNum = t.getInt(R.styleable.DragCardStyle_drag_visible_num, DEFAU_LTVISIBLENUM);
+        //透明度变化率
+        mAlpha = t.getFloat(R.styleable.DragCardStyle_drag_alpha, DEFAULT_ALPHA);
+        mScale = t.getFloat(R.styleable.DragCardStyle_drag_scale, DEFAULT_SCACLE);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public DragCard(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public DragCard(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        this(context, attrs);
+    }
 
     private class CustomSpringListener extends SimpleSpringListener {
         @Override
@@ -70,25 +102,6 @@ public class DragCard extends RelativeLayout {
             ViewCompat.setScaleX(DragCard.this, scale);
             ViewCompat.setScaleY(DragCard.this, scale);
         }
-    }
-
-    public DragCard(Context context) {
-        super(context);
-    }
-
-    public DragCard(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public DragCard(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DragCard(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -167,9 +180,9 @@ public class DragCard extends RelativeLayout {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) child.getLayoutParams();
             params.width = RelativeLayout.LayoutParams.WRAP_CONTENT;
             params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            float s_x = 1.0f - i * 0.01f;
-            float s_y = 1.0f - i * 0.01f;
-            float alpha = 1.0f - i * 0.05f;
+            float s_x = 1.0f - i * mScale;
+            float s_y = 1.0f - i * mScale;
+            float alpha = 1.0f - i * mAlpha;
             float y = index * card_margin + params.topMargin;
             float x = params.leftMargin;
             ViewPropertity propertity = ViewPropertity.createProperties(x, y, s_x, s_y, alpha);
@@ -210,7 +223,7 @@ public class DragCard extends RelativeLayout {
     private void animBackward() {
         animt_finish = false;
         View back = viewCollection.remove(0);
-        if (back.getVisibility()==GONE)
+        if (back.getVisibility() == GONE)
             back.setVisibility(VISIBLE);
         ViewGroup viewGroup = (ViewGroup) back.getParent();
         if (viewGroup != null) {
@@ -237,9 +250,9 @@ public class DragCard extends RelativeLayout {
             float alpha = ViewCompat.getAlpha(view);
             float y = ViewCompat.getTranslationY(view);
             ViewPropertity start = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x -= 0.01f;
-            s_y -= 0.01f;
-            alpha -= 0.05f;
+            s_x -= mScale;
+            s_y -= mScale;
+            alpha -= mAlpha;
             y -= card_margin;
             ViewPropertity end = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
             ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
@@ -274,9 +287,9 @@ public class DragCard extends RelativeLayout {
             float alpha = ViewCompat.getAlpha(view);
             float y = ViewCompat.getTranslationY(view);
             ViewPropertity start = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x += 0.01f;
-            s_y += 0.01f;
-            alpha += 0.05f;
+            s_x += mScale;
+            s_y += mScale;
+            alpha += mAlpha;
             y += card_margin;
             ViewPropertity end = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
             ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
@@ -312,7 +325,7 @@ public class DragCard extends RelativeLayout {
         }
         viewCollection.set(0, temp);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) temp.getLayoutParams();
-        float s = (1.0f - 0.01f * (mVisibleNum - 1));
+        float s = (1.0f - mScale * (mVisibleNum - 1));
         float y = params.topMargin;
         float x = params.leftMargin;
         float alpha = 1.0f;
@@ -524,9 +537,9 @@ public class DragCard extends RelativeLayout {
             float alpha = propertity.alpha;
             float y = propertity.y;
             ViewPropertity start = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x += 0.01f;
-            s_y += 0.01f;
-            alpha += 0.05f;
+            s_x += mScale;
+            s_y += mScale;
+            alpha += mAlpha;
             y += card_margin;
             ViewPropertity end = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
             ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
