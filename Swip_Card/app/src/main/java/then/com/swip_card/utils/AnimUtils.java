@@ -22,7 +22,6 @@ public class AnimUtils {
                 ViewCompat.setScaleX(view, propertity.s_x);
                 ViewCompat.setAlpha(view, propertity.alpha);
                 ViewCompat.setRotation(view, propertity.rotate);
-                Log.d("tag", propertity.rotate + "");
             }
         });
         return valueAnimator;
