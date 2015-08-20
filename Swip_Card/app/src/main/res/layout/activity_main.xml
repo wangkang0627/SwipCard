@@ -22,7 +22,7 @@
         android:layout_gravity="bottom"
         android:text="left" />
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/test_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
