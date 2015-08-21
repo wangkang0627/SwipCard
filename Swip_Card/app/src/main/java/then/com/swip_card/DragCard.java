@@ -10,13 +10,16 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.facebook.rebound.BaseSpringSystem;
 import com.facebook.rebound.SimpleSpringListener;
@@ -33,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
+import then.com.swip_card.manager.BaseLayoutManager;
+import then.com.swip_card.manager.TopToBottomLayoutManager;
 import then.com.swip_card.utils.AnimUtils;
 import then.com.swip_card.utils.CardListener;
 import then.com.swip_card.utils.CardUtils;
@@ -47,11 +52,12 @@ public class DragCard extends RelativeLayout {
     private static final float DEFAULT_CARD_MARGIN = 20f;//card之间的默认 margin
     private static final float DEFAULT_ALPHA = 0.05f;//默认透明度变化
     private static final float DEFAULT_SCACLE = 0.01f;//缩小率
-    private float mScale = 0;
-    private float mAlpha = 0;
+    private float mScale = 0;//缩小变化率
+    private float mAlpha = 0;//透明变化率
     private float card_margin = 0;//card之间的margin
     private int mVisibleNum = 0;//可见数
-
+    private int mWidth;//屏幕像素宽高
+    private int mHeight;
     private ViewDragHelper mDragHelper;
     private int mIndex = 0;//当前索引
     //private GestureDetectorCompat gestureDetector;
@@ -66,7 +72,7 @@ public class DragCard extends RelativeLayout {
     private final BaseSpringSystem mSpringSystem = SpringSystem.create();
     private final CustomSpringListener mSpringListener = new CustomSpringListener();
     private Spring mScaleSpring;
-
+    private BaseLayoutManager baseLayoutManager;
 
     public DragCard(Context context) {
         super(context);
@@ -82,6 +88,13 @@ public class DragCard extends RelativeLayout {
         //透明度变化率
         mAlpha = t.getFloat(R.styleable.DragCardStyle_drag_alpha, DEFAULT_ALPHA);
         mScale = t.getFloat(R.styleable.DragCardStyle_drag_scale, DEFAULT_SCACLE);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        mWidth = dm.widthPixels;
+        mHeight = dm.heightPixels;
+        baseLayoutManager = new TopToBottomLayoutManager();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -178,14 +191,9 @@ public class DragCard extends RelativeLayout {
                     , null);
             parent.addView(child);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) child.getLayoutParams();
-            params.width = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            float s_x = 1.0f - i * mScale;
-            float s_y = 1.0f - i * mScale;
-            float alpha = 1.0f - i * mAlpha;
-            float y = index * card_margin + params.topMargin;
-            float x = params.leftMargin;
-            ViewPropertity propertity = ViewPropertity.createProperties(x, y, s_x, s_y, alpha);
+            params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
+            params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            ViewPropertity propertity = baseLayoutManager.layout(mScale,card_margin,mAlpha,child,i,mVisibleNum);
             CardUtils.setProperties(parent, propertity);
             orign_propertitys.put(parent, propertity);
         }
