@@ -193,6 +193,7 @@ public class DragCard extends RelativeLayout {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) child.getLayoutParams();
             params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
             params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            //采用布局管理器进行布局
             ViewPropertity propertity = baseLayoutManager.layout(mScale, card_margin, mAlpha, child, i, mVisibleNum);
             CardUtils.setProperties(parent, propertity);
             orign_propertitys.put(parent, propertity);
@@ -244,28 +245,7 @@ public class DragCard extends RelativeLayout {
         ViewGroup group = (ViewGroup) back;
         group.removeAllViews();
         group.addView(baseGragAdapter.getView((mIndex - 1), null, null));
-        ViewPropertity propertity = ViewPropertity.createProperties(0, (mVisibleNum - 1) * card_margin, 1.0f, 1.0f, 1.0f);
-        Animator animator = AnimUtils.getValueAnimator(last, propertity, back);
-        animator.setInterpolator(new DecelerateInterpolator());
-        AnimatorSet as = new AnimatorSet();
-        ArrayList<Animator> aCollection = new ArrayList<Animator>();
-        for (int i = viewCollection.size() - 1; i >= 0; i--) {
-            View view = viewCollection.get(i);
-            if (back == view)
-                continue;
-            float s_x = ViewCompat.getScaleX(view);
-            float s_y = ViewCompat.getScaleY(view);
-            float alpha = ViewCompat.getAlpha(view);
-            float y = ViewCompat.getTranslationY(view);
-            ViewPropertity start = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x -= mScale;
-            s_y -= mScale;
-            alpha -= mAlpha;
-            y -= card_margin;
-            ViewPropertity end = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
-            aCollection.add(valueAnimator);
-        }
+        AnimatorSet as = baseLayoutManager.backToLocation(mVisibleNum, mScale, card_margin, mAlpha, back, last, viewCollection);
         as.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -276,8 +256,6 @@ public class DragCard extends RelativeLayout {
                 cardListener.endSwip(mIndex);
             }
         });
-        aCollection.add(animator);
-        as.playTogether(aCollection);
         as.start();
     }
 
@@ -407,16 +385,16 @@ public class DragCard extends RelativeLayout {
                 boolean scroll = false;
                 if (Math.abs(this.left) > 300) {
                     if (this.left > 0)
-                        left_num = this.left + 1000;
+                        left_num = this.left + mWidth;
                     else
-                        left_num = this.left - 1000;
+                        left_num = this.left - mWidth;
                     scroll = true;
                 }
                 if (Math.abs(this.top) > 300) {
                     if (this.top > 0)
-                        top_num = this.top + 1000;
+                        top_num = this.top + mHeight;
                     else
-                        top_num = this.top - 1000;
+                        top_num = this.top - mHeight;
                     scroll = true;
                 }
                 if (scroll) {

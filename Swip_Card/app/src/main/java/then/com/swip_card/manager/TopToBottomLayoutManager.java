@@ -77,31 +77,36 @@ public class TopToBottomLayoutManager extends BaseLayoutManager {
 
 
     @Override
-    public void backToLocation(int direction, float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> viewCollection) {
+    public AnimatorSet backToLocation(int mVisibleNum, float m_scale, float card_margin, float m_alpha, View nowView,DragCard.ViewPropertity orginPropertity ,ArrayList<View> viewCollection) {
+        DragCard.ViewPropertity propertity = DragCard.ViewPropertity.createProperties(0, (mVisibleNum - 1) * card_margin, 1.0f, 1.0f, 1.0f);
+        Animator animator = AnimUtils.getValueAnimator(orginPropertity, propertity, nowView);
+        animator.setInterpolator(new DecelerateInterpolator());
         AnimatorSet as = new AnimatorSet();
         ArrayList<Animator> aCollection = new ArrayList<Animator>();
         for (int i = viewCollection.size() - 1; i >= 0; i--) {
             View view = viewCollection.get(i);
-            if (view == nowView) {
+            if (nowView == view)
                 continue;
-            }
             float s_x = ViewCompat.getScaleX(view);
             float s_y = ViewCompat.getScaleY(view);
             float alpha = ViewCompat.getAlpha(view);
             float y = ViewCompat.getTranslationY(view);
             DragCard.ViewPropertity start = DragCard.ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x += m_scale;
-            s_y += m_scale;
-            alpha += m_alpha;
-            y += card_margin;
+            s_x -= m_scale;
+            s_y -= m_scale;
+            alpha -= m_alpha;
+            y -= card_margin;
             DragCard.ViewPropertity end = DragCard.ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
             ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
             aCollection.add(valueAnimator);
         }
+        aCollection.add(animator);
+        as.playTogether(aCollection);
+        return as;
     }
 
     @Override
-    public void moveToBack(View nowView,float mScale, float m_alpha, float card_margin,int mVisibleNum) {
+    public void moveToBack(View nowView, float mScale, float m_alpha, float card_margin, int mVisibleNum) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) nowView.getLayoutParams();
         float s = (1.0f - mScale * (mVisibleNum - 1));
         float y = params.topMargin;

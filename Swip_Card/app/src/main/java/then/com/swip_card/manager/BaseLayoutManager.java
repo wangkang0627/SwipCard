@@ -15,7 +15,7 @@ public abstract class BaseLayoutManager {
     public abstract AnimatorSet animForward(int direction, float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> views);
 
     //回到原来的位置
-    public abstract void backToLocation(int direction, float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> views);
+    public abstract AnimatorSet backToLocation(int mVisibleNum, float m_scale, float card_margin, float m_alpha, View nowView,DragCard.ViewPropertity orginPropertity ,ArrayList<View> viewCollection);
     //把划走的位置进行重置
     public abstract void moveToBack(View nowView, float mScale, float m_alpha, float card_margin,int mVisibleNum);
 }
