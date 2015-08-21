@@ -193,7 +193,7 @@ public class DragCard extends RelativeLayout {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) child.getLayoutParams();
             params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
             params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
-            ViewPropertity propertity = baseLayoutManager.layout(mScale,card_margin,mAlpha,child,i,mVisibleNum);
+            ViewPropertity propertity = baseLayoutManager.layout(mScale, card_margin, mAlpha, child, i, mVisibleNum);
             CardUtils.setProperties(parent, propertity);
             orign_propertitys.put(parent, propertity);
         }
@@ -332,13 +332,7 @@ public class DragCard extends RelativeLayout {
             viewCollection.set(i, current);
         }
         viewCollection.set(0, temp);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) temp.getLayoutParams();
-        float s = (1.0f - mScale * (mVisibleNum - 1));
-        float y = params.topMargin;
-        float x = params.leftMargin;
-        float alpha = 1.0f;
-        ViewPropertity propertity = ViewPropertity.createProperties(x, y, s, s, alpha, 0);
-        CardUtils.setProperties(temp, propertity);
+        baseLayoutManager.moveToBack(temp, mScale, mAlpha, card_margin, mVisibleNum);
         //如果有数据就进行加载
         if ((mIndex + mVisibleNum - 1) < baseGragAdapter.getCount()) {
             ViewGroup cg = (ViewGroup) temp;
@@ -517,53 +511,15 @@ public class DragCard extends RelativeLayout {
         if (!animt_finish)
             return;
         animt_finish = false;
-        final View topView = getTopView();
-        ObjectAnimator animator = ObjectAnimator.ofFloat(topView, "drag", ViewCompat.getTranslationX(topView), 30f, -1200f);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float value = (float) valueAnimator.getAnimatedValue();
-                ViewCompat.setTranslationX(topView, value);
-                float rotation_coefficient = 30f;
-                float mRotation = (value / rotation_coefficient);
-                if (value < 0)
-                    ViewCompat.setRotation(topView, mRotation);
-            }
-        });
-        animator.setDuration(700);
-        animator.setInterpolator(new DecelerateInterpolator());
-        AnimatorSet as = new AnimatorSet();
-        ArrayList<Animator> aCollection = new ArrayList<Animator>();
-        for (int i = viewCollection.size() - 1; i >= 0; i--) {
-            View view = viewCollection.get(i);
-            if (view == getTopView()) {
-                continue;
-            }
-            ViewPropertity propertity = CardUtils.getAllProperties(view);
-            float s_x = propertity.s_x;
-            float s_y = propertity.s_y;
-            float alpha = propertity.alpha;
-            float y = propertity.y;
-            ViewPropertity start = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x += mScale;
-            s_y += mScale;
-            alpha += mAlpha;
-            y += card_margin;
-            ViewPropertity end = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
-            aCollection.add(valueAnimator);
-        }
-        aCollection.add(animator);
-        as.playTogether(aCollection);
-        as.start();
-        as.addListener(new AnimatorListenerAdapter() {
+        AnimatorSet animatorSet = baseLayoutManager.animForward(direction, mScale, card_margin, mAlpha, getTopView(), viewCollection);
+        animatorSet.start();
+        animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 animt_finish = true;
                 mIndex++;
                 moveToBack();
-
             }
         });
         if (cardListener != null)

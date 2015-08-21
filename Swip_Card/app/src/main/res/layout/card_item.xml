@@ -11,6 +11,7 @@
         android:layout_width="310dp"
         android:layout_height="380dp">
             <TextView
+                android:background="@mipmap/avatar_default"
                 android:id="@+id/text"
                 android:textSize="30sp"
                 android:layout_centerInParent="true"
