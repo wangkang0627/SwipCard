@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+// This does not break the build when Android Studio is missing the JRebel for Android plugin.
+/*apply plugin: 'com.zeroturnaround.jrebel.android'*/
 
 android {
     compileSdkVersion 22
@@ -10,6 +12,8 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        resConfig "ch"
+       /* resConfigs "nodpi","hdpi"*/
     }
     buildTypes {
         release {
