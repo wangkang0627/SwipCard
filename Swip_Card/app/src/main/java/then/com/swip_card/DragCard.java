@@ -261,26 +261,7 @@ public class DragCard extends RelativeLayout {
 
     //把所有组件向前移动
     private void animLast() {
-        AnimatorSet as = new AnimatorSet();
-        ArrayList<Animator> aCollection = new ArrayList<Animator>();
-        for (int i = viewCollection.size() - 1; i >= 0; i--) {
-            View view = viewCollection.get(i);
-            if (view == getTopView()) {
-                continue;
-            }
-            float s_x = ViewCompat.getScaleX(view);
-            float s_y = ViewCompat.getScaleY(view);
-            float alpha = ViewCompat.getAlpha(view);
-            float y = ViewCompat.getTranslationY(view);
-            ViewPropertity start = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            s_x += mScale;
-            s_y += mScale;
-            alpha += mAlpha;
-            y += card_margin;
-            ViewPropertity end = ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
-            ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
-            aCollection.add(valueAnimator);
-        }
+        AnimatorSet as = baseLayoutManager.animLast(mScale,card_margin,mAlpha,getTopView(),viewCollection);
         as.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -291,7 +272,6 @@ public class DragCard extends RelativeLayout {
                 moveToBack();
             }
         });
-        as.playTogether(aCollection);
         as.start();
 
     }

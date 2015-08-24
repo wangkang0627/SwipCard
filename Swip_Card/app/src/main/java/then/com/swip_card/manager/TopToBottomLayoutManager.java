@@ -33,6 +33,32 @@ public class TopToBottomLayoutManager extends BaseLayoutManager {
     }
 
     @Override
+    public AnimatorSet animLast(float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> viewCollection) {
+        AnimatorSet as = new AnimatorSet();
+        ArrayList<Animator> aCollection = new ArrayList<Animator>();
+        for (int i = viewCollection.size() - 1; i >= 0; i--) {
+            View view = viewCollection.get(i);
+            if (view == nowView) {
+                continue;
+            }
+            float s_x = ViewCompat.getScaleX(view);
+            float s_y = ViewCompat.getScaleY(view);
+            float alpha = ViewCompat.getAlpha(view);
+            float y = ViewCompat.getTranslationY(view);
+            DragCard.ViewPropertity start = DragCard.ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
+            s_x += m_scale;
+            s_y += m_scale;
+            alpha += m_alpha;
+            y += card_margin;
+            DragCard.ViewPropertity end = DragCard.ViewPropertity.createProperties(0, y, s_x, s_y, alpha);
+            ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
+            aCollection.add(valueAnimator);
+        }
+        as.playTogether(aCollection);
+        return as;
+    }
+
+    @Override
     public AnimatorSet animForward(int direction, float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> viewCollection) {
         final View topView = nowView;
         ObjectAnimator animator = ObjectAnimator.ofFloat(topView, "drag", ViewCompat.getTranslationX(topView), 30f, -1200f);
