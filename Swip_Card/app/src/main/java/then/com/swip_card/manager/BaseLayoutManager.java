@@ -11,6 +11,8 @@ import then.com.swip_card.DragCard;
 public abstract class BaseLayoutManager {
     public abstract DragCard.ViewPropertity layout(float scale, float margin, float alpha, View view, int position, int visibleNum);
 
+    //当view进行滑动的时候
+    public abstract void onViewPositionChanged(View view,float totalX,float totalY,float rotation_coefficient);
     //滑动的时候，自动滑动到不可见
     public abstract AnimatorSet animLast(float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> views);
 

@@ -261,7 +261,7 @@ public class DragCard extends RelativeLayout {
 
     //把所有组件向前移动
     private void animLast() {
-        AnimatorSet as = baseLayoutManager.animLast(mScale,card_margin,mAlpha,getTopView(),viewCollection);
+        AnimatorSet as = baseLayoutManager.animLast(mScale, card_margin, mAlpha, getTopView(), viewCollection);
         as.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -343,16 +343,17 @@ public class DragCard extends RelativeLayout {
             private int left = 0;
             private int top = 0;
             private int total_x = 0;
+            private int total_y = 0;
 
             @Override
             public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
                 super.onViewPositionChanged(changedView, left, top, dx, dy);
                 float rotation_coefficient = 20f;
                 total_x += dx;
-                float mRotation = (total_x / rotation_coefficient);
+                total_y += dy;
                 this.left = total_x;
-                this.top = top;
-                ViewCompat.setRotation(changedView, mRotation);
+                this.top = total_y;
+                baseLayoutManager.onViewPositionChanged(changedView, total_x, total_y, rotation_coefficient);
             }
 
             @Override
@@ -393,6 +394,7 @@ public class DragCard extends RelativeLayout {
                             animLast();
                             view_left = -1;
                             total_x = 0;
+                            total_y = 0;
                         }
                     });
                     animator.setDuration(500);

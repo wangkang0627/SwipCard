@@ -33,6 +33,12 @@ public class TopToBottomLayoutManager extends BaseLayoutManager {
     }
 
     @Override
+    public void onViewPositionChanged(View view, float totalX, float totalY,float rotation_coefficient) {
+        float mRotation = (totalX / rotation_coefficient);
+        ViewCompat.setRotation(view, mRotation);
+    }
+
+    @Override
     public AnimatorSet animLast(float m_scale, float card_margin, float m_alpha, View nowView, ArrayList<View> viewCollection) {
         AnimatorSet as = new AnimatorSet();
         ArrayList<Animator> aCollection = new ArrayList<Animator>();
