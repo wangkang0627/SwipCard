@@ -1,8 +1,9 @@
-package then.com.swip_card.utils;
+package then.com.library.swip_card.utils;
 
 import com.nineoldandroids.animation.TypeEvaluator;
 
-import then.com.swip_card.DragCard;
+import then.com.library.swip_card.DragCard;
+
 
 /**
  * Created by Administrator on 2015/8/16 0016.

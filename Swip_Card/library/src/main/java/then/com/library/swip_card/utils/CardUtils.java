@@ -1,9 +1,9 @@
-package then.com.swip_card.utils;
+package then.com.library.swip_card.utils;
 
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
-import then.com.swip_card.DragCard;
+import then.com.library.swip_card.DragCard;
 
 
 public class CardUtils {

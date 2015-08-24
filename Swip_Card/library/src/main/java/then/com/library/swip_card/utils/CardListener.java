@@ -1,4 +1,4 @@
-package then.com.swip_card.utils;
+package then.com.library.swip_card.utils;
 
 public abstract class CardListener {
     //滑动到最后一个

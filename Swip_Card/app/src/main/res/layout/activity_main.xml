@@ -2,18 +2,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <then.com.swip_card.DragCard xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:drag="http://schemas.android.com/apk/res/then.com.swip_card"
+    <then.com.library.swip_card.DragCard xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:drag="http://schemas.android.com/apk/res/then.com.library.swip_card"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        drag:drag_alpha="0.05"
-        drag:drag_card_margin="10dp"
-        drag:drag_scale="0.01"
-        drag:drag_visible_num="3"
-        tools:context=".MainActivity"></then.com.swip_card.DragCard>
 
+        tools:context=".MainActivity"></then.com.library.swip_card.DragCard>
+   <!-- drag:drag_alpha="0.05"
+    drag:drag_card_margin="10dp"
+    drag:drag_scale="0.01"
+    drag:drag_visible_num="3"-->
     <Button
         android:id="@+id/test_a"
         android:layout_width="wrap_content"

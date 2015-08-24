@@ -1,4 +1,4 @@
-package then.com.swip_card.manager;
+package then.com.library.swip_card.manager;
 
 import android.view.View;
 
@@ -6,7 +6,8 @@ import com.nineoldandroids.animation.AnimatorSet;
 
 import java.util.ArrayList;
 
-import then.com.swip_card.DragCard;
+import then.com.library.swip_card.DragCard;
+
 
 public abstract class BaseLayoutManager {
     public abstract DragCard.ViewPropertity layout(float scale, float margin, float alpha, View view, int position, int visibleNum);

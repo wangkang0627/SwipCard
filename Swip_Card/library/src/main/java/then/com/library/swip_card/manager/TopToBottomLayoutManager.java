@@ -1,4 +1,4 @@
-package then.com.swip_card.manager;
+package then.com.library.swip_card.manager;
 
 import android.support.v4.view.ViewCompat;
 import android.view.View;
@@ -13,9 +13,9 @@ import com.nineoldandroids.animation.ValueAnimator;
 
 import java.util.ArrayList;
 
-import then.com.swip_card.DragCard;
-import then.com.swip_card.utils.AnimUtils;
-import then.com.swip_card.utils.CardUtils;
+import then.com.library.swip_card.DragCard;
+import then.com.library.swip_card.utils.AnimUtils;
+import then.com.library.swip_card.utils.CardUtils;
 
 
 public class TopToBottomLayoutManager extends BaseLayoutManager {

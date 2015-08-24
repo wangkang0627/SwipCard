@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <declare-styleable name="DragCardStyle">
+        <attr name="drag_card_margin" format="dimension" />
+        <attr name="drag_visible_num" format="integer"/>
+        <attr name="drag_alpha" format="float"/>
+        <attr name="drag_scale" format="float"/>
+    </declare-styleable>
+</resources>

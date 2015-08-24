@@ -13,7 +13,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import then.com.swip_card.utils.CardListener;
+import then.com.library.swip_card.DragCard;
+import then.com.library.swip_card.utils.CardListener;
 import then.com.test.MyAdapter;
 
 public class MainActivity extends AppCompatActivity {

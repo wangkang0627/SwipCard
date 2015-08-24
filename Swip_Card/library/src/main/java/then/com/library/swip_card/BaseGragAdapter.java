@@ -1,6 +1,5 @@
-package then.com.swip_card;
+package then.com.library.swip_card;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

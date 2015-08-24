@@ -1,13 +1,13 @@
-package then.com.swip_card.utils;
+package then.com.library.swip_card.utils;
 
 
 import android.support.v4.view.ViewCompat;
-import android.util.Log;
 import android.view.View;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
-import then.com.swip_card.DragCard;
+import then.com.library.swip_card.DragCard;
+
 
 public class AnimUtils {
     public static ValueAnimator getValueAnimator(DragCard.ViewPropertity start, DragCard.ViewPropertity end, final View view) {

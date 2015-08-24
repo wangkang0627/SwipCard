@@ -1,11 +1,10 @@
-package then.com.swip_card;
+package then.com.library.swip_card;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.os.Build;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
@@ -16,10 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.facebook.rebound.BaseSpringSystem;
 import com.facebook.rebound.SimpleSpringListener;
@@ -29,18 +26,17 @@ import com.facebook.rebound.SpringSystem;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.ValueAnimator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-import then.com.swip_card.manager.BaseLayoutManager;
-import then.com.swip_card.manager.TopToBottomLayoutManager;
-import then.com.swip_card.utils.AnimUtils;
-import then.com.swip_card.utils.CardListener;
-import then.com.swip_card.utils.CardUtils;
+import then.com.library.R;
+import then.com.library.swip_card.manager.BaseLayoutManager;
+import then.com.library.swip_card.manager.TopToBottomLayoutManager;
+import then.com.library.swip_card.utils.AnimUtils;
+import then.com.library.swip_card.utils.CardListener;
+import then.com.library.swip_card.utils.CardUtils;
 
 
 public class DragCard extends RelativeLayout {
@@ -491,7 +487,7 @@ public class DragCard extends RelativeLayout {
             FrameLayout v = new FrameLayout(getContext());
             viewCollection.add(v);
             addView(v);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            LayoutParams params = (LayoutParams) v.getLayoutParams();
             params.width = LayoutParams.WRAP_CONTENT;
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             v.setLayoutParams(params);

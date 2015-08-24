@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import then.com.swip_card.BaseGragAdapter;
+import then.com.library.swip_card.BaseGragAdapter;
 import then.com.swip_card.R;
 
 /**

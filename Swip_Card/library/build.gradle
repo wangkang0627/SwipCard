@@ -1,19 +1,14 @@
-apply plugin: 'com.android.application'
-// This does not break the build when Android Studio is missing the JRebel for Android plugin.
-/*apply plugin: 'com.zeroturnaround.jrebel.android'*/
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.0"
 
     defaultConfig {
-        applicationId "then.com.swip_card"
         minSdkVersion 9
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-       /* resConfig "ch"*/
-       /* resConfigs "nodpi","hdpi"*/
     }
     buildTypes {
         release {
@@ -25,7 +20,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:cardview-v7:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.1'
-    compile project(':library')
+    compile 'com.android.support:support-v4:22.2.1'
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile files('libs/rebound-0.3.8.jar')
 }
