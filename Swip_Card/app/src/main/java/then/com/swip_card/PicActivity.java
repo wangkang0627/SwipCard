@@ -20,7 +20,7 @@ public class PicActivity   extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_pic_layout);
         final PicAdapter myAdapter = new PicAdapter(this);
         final List<PicModel> data = new ArrayList<>();
         data.add(new PicModel(R.mipmap.img1));
@@ -36,18 +36,6 @@ public class PicActivity   extends AppCompatActivity {
         final DragCard dragCard = (DragCard) findViewById(R.id.parent);
         dragCard.setLayoutManager(new PicLayoutManager());
         dragCard.setAdapter(myAdapter);
-        findViewById(R.id.test_a).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dragCard.dragCard(1);
-            }
-        });
-        findViewById(R.id.test_b).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dragCard.preCard(1);
-            }
-        });
         dragCard.setCardListener(new CardListener() {
             @Override
             public void loadEnd(int position) {

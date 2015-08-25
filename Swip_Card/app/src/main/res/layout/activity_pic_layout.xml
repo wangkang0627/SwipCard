@@ -1,6 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <then.com.library.swip_card.DragCard xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:drag="http://schemas.android.com/apk/res/then.com.swip_card"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        drag:drag_margin_top="40dp"
+        tools:context=".MainActivity"></then.com.library.swip_card.DragCard>
+    <!-- drag:drag_alpha="0.05"
+     drag:drag_card_margin="10dp"
+     drag:drag_scale="0.01"
+     drag:drag_visible_num="3"-->
+
+</RelativeLayout>
