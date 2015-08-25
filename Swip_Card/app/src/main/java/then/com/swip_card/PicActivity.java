@@ -16,7 +16,7 @@ import then.com.model.PicModel;
 import then.com.test.MyAdapter;
 
 
-public class PicActivity   extends AppCompatActivity {
+public class PicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +34,7 @@ public class PicActivity   extends AppCompatActivity {
             }
         }, 1000);
         final DragCard dragCard = (DragCard) findViewById(R.id.parent);
+        dragCard.setmDisappearDuration(700);
         dragCard.setLayoutManager(new PicLayoutManager());
         dragCard.setAdapter(myAdapter);
         dragCard.setCardListener(new CardListener() {

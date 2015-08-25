@@ -48,7 +48,8 @@ public class DragCard extends RelativeLayout {
     private static final float DEFAULT_CARD_MARGIN = 20f;//card之间的默认 margin
     private static final float DEFAULT_ALPHA = 0.05f;//默认透明度变化
     private static final float DEFAULT_SCACLE = 0.01f;//缩小率
-    private static final float DEFAULT_MARGIN_TOP = 20;
+    private static final float DEFAULT_MARGIN_TOP = 0;
+    private int mDisappearDuration = 500;//滑动卡片放开时 卡片动画的时间
     private float mMarginTop = 0;
     private float mScale = 0;//缩小变化率
     private float mAlpha = 0;//透明变化率
@@ -396,7 +397,7 @@ public class DragCard extends RelativeLayout {
                             total_y = 0;
                         }
                     });
-                    animator.setDuration(500);
+                    animator.setDuration(mDisappearDuration);
                     animator.start();
                 } else {
                     mDragHelper.smoothSlideViewTo(releasedChild, view_left, top_num + getPaddingTop());
@@ -495,6 +496,14 @@ public class DragCard extends RelativeLayout {
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             v.setLayoutParams(params);
         }
+    }
+
+    public int getmDisappearDuration() {
+        return mDisappearDuration;
+    }
+
+    public void setmDisappearDuration(int mDisappearDuration) {
+        this.mDisappearDuration = mDisappearDuration;
     }
 
     public BaseLayoutManager getLayoutManager() {

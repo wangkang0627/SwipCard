@@ -4,6 +4,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -76,6 +77,8 @@ public class PicLayoutManager extends BaseLayoutManager {
             ValueAnimator valueAnimator = AnimUtils.getValueAnimator(start, end, view);
             aCollection.add(valueAnimator);
         }
+        as.setDuration(200);
+        as.setInterpolator(new DecelerateInterpolator());
         as.playTogether(aCollection);
         return as;
     }
