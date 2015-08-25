@@ -48,6 +48,8 @@ public class DragCard extends RelativeLayout {
     private static final float DEFAULT_CARD_MARGIN = 20f;//card之间的默认 margin
     private static final float DEFAULT_ALPHA = 0.05f;//默认透明度变化
     private static final float DEFAULT_SCACLE = 0.01f;//缩小率
+    private static final float DEFAULT_MARGIN_TOP = 20;
+    private float mMarginTop = 0;
     private float mScale = 0;//缩小变化率
     private float mAlpha = 0;//透明变化率
     private float card_margin = 0;//card之间的margin
@@ -84,7 +86,7 @@ public class DragCard extends RelativeLayout {
         //透明度变化率
         mAlpha = t.getFloat(R.styleable.DragCardStyle_drag_alpha, DEFAULT_ALPHA);
         mScale = t.getFloat(R.styleable.DragCardStyle_drag_scale, DEFAULT_SCACLE);
-
+        mMarginTop = t.getDimension(R.styleable.DragCardStyle_drag_margin_top, DEFAULT_MARGIN_TOP);
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(dm);
@@ -179,16 +181,17 @@ public class DragCard extends RelativeLayout {
     private void loadData() {
         mIndex = 0;
         for (int i = mVisibleNum - 1; i >= 0; i--) {
-            if (mVisibleNum > baseGragAdapter.getCount())
-                break;
+            if ((i) >= baseGragAdapter.getCount())
+                continue;
             int index = (mVisibleNum - 1) - i;
             ViewGroup parent = (ViewGroup) viewCollection.get(index);
             View child = baseGragAdapter.getView(i, null
                     , null);
             parent.addView(child);
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) child.getLayoutParams();
+            FrameLayout.MarginLayoutParams params = (FrameLayout.LayoutParams) child.getLayoutParams();
             params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
             params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            params.topMargin = (int) mMarginTop;
             //采用布局管理器进行布局
             ViewPropertity propertity = baseLayoutManager.layout(mScale, card_margin, mAlpha, child, i, mVisibleNum);
             CardUtils.setProperties(parent, propertity);
@@ -492,6 +495,14 @@ public class DragCard extends RelativeLayout {
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             v.setLayoutParams(params);
         }
+    }
+
+    public BaseLayoutManager getLayoutManager() {
+        return baseLayoutManager;
+    }
+
+    public void setLayoutManager(BaseLayoutManager baseLayoutManager) {
+        this.baseLayoutManager = baseLayoutManager;
     }
 
     public int getmIndex() {

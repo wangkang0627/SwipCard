@@ -9,5 +9,7 @@
         <attr name="drag_visible_num" format="integer"/>
         <attr name="drag_alpha" format="float"/>
         <attr name="drag_scale" format="float"/>
+        <attr name="drag_margin_top" format="dimension"/>
+
     </declare-styleable>
 </resources>
