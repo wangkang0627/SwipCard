@@ -10,11 +10,14 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -315,6 +318,7 @@ public class DragCard extends RelativeLayout {
 
     private void init() {
         loadVisibileViews();
+
         mDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public int getViewHorizontalDragRange(View child) {
@@ -362,7 +366,6 @@ public class DragCard extends RelativeLayout {
                 release_flag = false;
                 int left_num = 0;
                 int top_num = 0;
-
                 boolean scroll = false;
                 if (Math.abs(this.left) > 300) {
                     if (this.left > 0)
@@ -370,6 +373,10 @@ public class DragCard extends RelativeLayout {
                     else
                         left_num = this.left - mWidth;
                     scroll = true;
+                    if (this.top > 0)
+                        top_num = this.top + mHeight;
+                    else
+                        top_num = this.top - mHeight;
                 }
                 if (Math.abs(this.top) > 300) {
                     if (this.top > 0)
@@ -377,16 +384,19 @@ public class DragCard extends RelativeLayout {
                     else
                         top_num = this.top - mHeight;
                     scroll = true;
+                    if (this.left > 0)
+                        left_num = this.left + mWidth;
+                    else
+                        left_num = this.left - mWidth;
                 }
                 if (scroll) {
                     animt_finish = false;
-                    float rotation_coefficient = 20f;
-                    float startRotation = (this.left / rotation_coefficient);
-                    float endRotation = (left_num / rotation_coefficient);
-                    Animator animator = AnimUtils.getValueAnimator(ViewPropertity.createProperties(this.left, this.top, 1.0f, 1.0f, 1.0f, startRotation),
-                            ViewPropertity.createProperties(left_num, top_num, 1.0f, 1.0f, 1.0f, endRotation), releasedChild);
+                    Log.d("tag", this.left + "###" + this.top + "###" + left_num + "###" + top_num);
+                    Animator animator = AnimUtils.getValueAnimator(ViewPropertity.createProperties(this.left, this.top, 1.0f, 1.0f, 1.0f, ViewCompat.getRotation(releasedChild)),
+                            ViewPropertity.createProperties(left_num, top_num, 1.0f, 1.0f, 1.0f, ViewCompat.getRotation(releasedChild)), releasedChild);
                     if (cardListener != null)
                         cardListener.startSwip(mIndex);
+
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -397,6 +407,7 @@ public class DragCard extends RelativeLayout {
                             total_y = 0;
                         }
                     });
+                    animator.setInterpolator(new DecelerateInterpolator());
                     animator.setDuration(mDisappearDuration);
                     animator.start();
                 } else {
